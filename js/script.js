@@ -181,7 +181,7 @@ function findPath(sSourceCellID, sTargetCellID) {
 		// look up
 		if (aCurrentCord[0] > 0) {
 
-			nPrevX = aCurrentCord[0] - 1;
+			nPrevX = aCurrentCord[0]*1 - 1;
 			nPrevY = aCurrentCord[1];
 			sPrevID = Cord2ID(nPrevX, nPrevY);
 
@@ -206,7 +206,7 @@ function findPath(sSourceCellID, sTargetCellID) {
 
 		// look down
 		if (aCurrentCord[0] < 8) {
-			nPrevX = aCurrentCord[0] + 1;
+			nPrevX = aCurrentCord[0]*1 + 1;
 			nPrevY = aCurrentCord[1];
 			sPrevID = nPrevX + "_" + nPrevY;
 
@@ -232,7 +232,7 @@ function findPath(sSourceCellID, sTargetCellID) {
 		// look left
 		if (aCurrentCord[1] > 0) {
 			nPrevX = aCurrentCord[0];
-			nPrevY = aCurrentCord[1] - 1;
+			nPrevY = aCurrentCord[1]*1 - 1;
 			sPrevID = nPrevX + "_" + nPrevY;
 
 			oPrevCell = $("#" + sPrevID);
@@ -257,10 +257,12 @@ function findPath(sSourceCellID, sTargetCellID) {
 		// look right
 		if (aCurrentCord[1] < 8) {
 			nPrevX = aCurrentCord[0];
-			nPrevY = aCurrentCord[1] + 1;
+			nPrevY = aCurrentCord[1]*1 + 1;
 			sPrevID = nPrevX + "_" + nPrevY;
 
 			oPrevCell = $("#" + sPrevID);
+			oPrevCell.toggleClass("working");
+			alert(sPrevID);
 			// if this is empty cell
 			if ((isEmpty(oPrevCell)) || (sPrevID == sSourceCellID)) {
 				// update distance to Target of Previous Cell
