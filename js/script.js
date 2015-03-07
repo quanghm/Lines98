@@ -176,6 +176,7 @@ function findPath(sSourceCellID, sTargetCellID) {
 			sCurrentCellID = aAllCells[sCurrentCellID].nextCellID;
 			$("#" + sCurrentCellID).toggleClass("active");
 			$("#" + sCurrentCellID).html("x");
+			
 
 		}
 	}
