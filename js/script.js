@@ -167,10 +167,16 @@ function findPath(sSourceCellID, sTargetCellID) {
 
 	function makeMove() {
 		var sCurrentCellID = sSourceCellID;
-		while (sCurrentCellID!==""){
-			console.log(sCurrentCellID);
-			$("#"+sCurrentCellID).addClass("path");
-			sCurrentCellID=aAllCells[sCurrentCellID].nextCellID;
+		while (sCurrentCellID !== sTargetCellID) { // Cell isn't target
+			// debug
+			alert(sCurrentCellID);
+
+			$("#" + sCurrentCellID).html("0");
+			$("#" + sCurrentCellID).toggleClass("active");
+			sCurrentCellID = aAllCells[sCurrentCellID].nextCellID;
+			$("#" + sCurrentCellID).toggleClass("active");
+			$("#" + sCurrentCellID).html("x");
+
 		}
 	}
 	// end auxiliary functions
@@ -217,7 +223,7 @@ function findPath(sSourceCellID, sTargetCellID) {
 
 		$.each(aNbhdIDs, function(direction, sNextCellID) {
 			if (sNextCellID === sSourceCellID) {
-				aAllCells[sNextCellID].nextCellID=sSourceCellID;
+				aAllCells[sSourceCellID].nextCellID = sCurrentCellID;
 				pathFound = true; // found path
 				return false;
 			}
@@ -226,7 +232,7 @@ function findPath(sSourceCellID, sTargetCellID) {
 			if (aAllCells[sNextCellID] !== undefined) {
 				if (aAllCells[sNextCellID].distToTarget > tempDist) {
 					aAllCells[sNextCellID].distToTarget = tempDist;
-					aAllCells[sCurrentCellID].nextCellID = sNextCellID;
+					aAllCells[sNextCellID].nextCellID = sCurrentCellID;
 
 					// debug
 					console.log(sNextCellID + ":" + tempDist);
@@ -240,6 +246,7 @@ function findPath(sSourceCellID, sTargetCellID) {
 		}
 		sortUnvisitedCells();
 	}
+	console.log("not Found");
 	return pathFound;
 
 }
