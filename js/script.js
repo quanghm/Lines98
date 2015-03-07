@@ -88,7 +88,7 @@ function getNbhd(sCellID) {
 		sNbhdID = Cord2ID(aCord[0] - 0 + 1, aCord[1]);
 		aNbhdIDs["d"] = sNbhdID;
 	}
-	
+
 	// debug
 	console.log(aNbhdIDs);
 	return aNbhdIDs;
@@ -126,7 +126,7 @@ function selectCell(element) {
 	} else { // if element is empty and source exists
 		if ((isEmpty(sSelectedID)) && (sSourceCellID !== "")) {
 			if (findPath(sSourceCellID, sSelectedID)) {
-				alert("found");
+				console.log("found");
 				// move(sSourceCellID, sSelectedID);
 			}
 		}
@@ -140,9 +140,9 @@ function findPath(sSourceCellID, sTargetCellID) {
 
 	// unvisited cells
 	var aUnvisitedCells = [];
-	
-	//  save all the (empty) cells
-	var aAllCells ={};
+
+	// save all the (empty) cells
+	var aAllCells = {};
 	// distant to Target
 	// var aAllCellsID = {};
 
@@ -151,51 +151,56 @@ function findPath(sSourceCellID, sTargetCellID) {
 	var nMinDistToTarget = 0;
 
 	// number of open cells
-	var nUnvisitedCellCount=0;
-	
+	var nUnvisitedCellCount = 0;
+
 	// auxiliary functions
 
-	function sortUnvisitedCells(){
+	function sortUnvisitedCells() {
 		// sort unvisited cells by increasing distance
-		aUnvisitedCells.sort(function(a,b){
-			return a.distToTarget-b.distToTarget;
+		aUnvisitedCells.sort(function(a, b) {
+			return a.distToTarget - b.distToTarget;
 		});
-		
+
 		// debug
 		$("#mainFooter").html(aUnvisitedCells[0].distToTarget);
 	}
-	
-	function updateCells(){};
+
+	function makeMove() {
+		var sCurrentCellID = sSourceCellID;
+		while (sCurrentCellID!==""){
+			console.log(sCurrentCellID);
+			$("#"+sCurrentCellID).addClass("path");
+			sCurrentCellID=aAllCells[sCurrentCellID].nextCellID;
+		}
+	}
 	// end auxiliary functions
-	
-	
+
 	// initialization
 	for (x = 0; x < 9; x++) {
 		for (y = 0; y < 9; y++) {
 			sCurrentCellID = Cord2ID(x, y);
 
 			if (isEmpty(sCurrentCellID) || (sCurrentCellID == sSourceCellID)) {
-								
+
 				aUnvisitedCells.push({
-					id:sCurrentCellID,
+					id : sCurrentCellID,
 					distToTarget : (sCurrentCellID == sTargetCellID) ? 0 : 20,
 					nextCellID : ""
 				});
-				
-				aAllCells[sCurrentCellID]=aUnvisitedCells[nUnvisitedCellCount++];
+
+				aAllCells[sCurrentCellID] = aUnvisitedCells[nUnvisitedCellCount++];
 			}
 		}
 	}
 	sortUnvisitedCells();
 
-	
 	// init Unvisited cells
-// aUnvisitedCells.push({
-// id : sTargetCellID,
-// nextID : "",
-// nDistToTarget : 0
-// });
-// nOpenCellCount++;
+	// aUnvisitedCells.push({
+	// id : sTargetCellID,
+	// nextID : "",
+	// nDistToTarget : 0
+	// });
+	// nOpenCellCount++;
 	// end intialization
 
 	var oCurrentCell, sNextCellID, tempDist;
@@ -203,7 +208,7 @@ function findPath(sSourceCellID, sTargetCellID) {
 	while (nUnvisitedCellCount > 0) {
 		oCurrentCell = aUnvisitedCells.shift();
 		nUnvisitedCellCount--;
-		if (oCurrentCell.distToTarget===20){
+		if (oCurrentCell.distToTarget === 20) {
 			return false;
 		}
 		sCurrentCellID = oCurrentCell.id;
@@ -211,26 +216,30 @@ function findPath(sSourceCellID, sTargetCellID) {
 		aNbhdIDs = getNbhd(sCurrentCellID);
 
 		$.each(aNbhdIDs, function(direction, sNextCellID) {
-			console.log("hello");
 			if (sNextCellID === sSourceCellID) {
-				pathFound = true;	// found path
+				aAllCells[sNextCellID].nextCellID=sSourceCellID;
+				pathFound = true; // found path
 				return false;
 			}
-			
-			tempDist=aAllCells[sCurrentCellID].distToTarget*1+1;
-			if (aAllCells[sNextCellID].distToTarget>tempDist){
-				aAllCells[sNextCellID].distToTarget=tempDist;
-				aAllCells[sCurrentCellID].nextCellID=sNextCellID;
-				
-				// debug
-				console.log(sNextCellID+":"+tempDist)
-				("#"+sNextCellID).html(tempDist);
+
+			tempDist = aAllCells[sCurrentCellID].distToTarget * 1 + 1;
+			if (aAllCells[sNextCellID] !== undefined) {
+				if (aAllCells[sNextCellID].distToTarget > tempDist) {
+					aAllCells[sNextCellID].distToTarget = tempDist;
+					aAllCells[sCurrentCellID].nextCellID = sNextCellID;
+
+					// debug
+					console.log(sNextCellID + ":" + tempDist);
+					$("#" + sNextCellID).html(tempDist);
+				}
 			}
 		});
-		
-		
+		if (pathFound) {
+			makeMove();
+			return true;
+		}
+		sortUnvisitedCells();
 	}
-	
 	return pathFound;
 
 }

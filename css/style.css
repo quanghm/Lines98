@@ -17,6 +17,6 @@
 	background-color: pink;
 }
 
-.boardCell.current {
+.boardCell.path {
 	background-color: yellow;
 }
