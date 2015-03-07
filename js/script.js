@@ -57,19 +57,48 @@ function toggleActive(object) {
 }
 
 function isEmpty(sCellID) {
-	return ($("#"+object).data("color") == 0);
+	return ($("#" + sCellID).data("color") === 0);
 }
-function getNbhd(sCellID){
-	var aCord;
+function getNbhd(sCellID) {
+	var aCord = ID2Cord(sCellID);
+	var aNbhdIDs = {};
+
+	var nbhdX, nbhdY;
+	var sNbhdID;
+
+	// left neighbor
+	if (aCord[1] > 0) {
+		sNbhdID = Cord2ID(aCord[0], aCord[1] - 1);
+		aNbhdIDs["l"] = sNbhdID;
+	}
+
+	// right neighbor
+	if (aCord[1] < 8) {
+		sNbhdID = Cord2ID(aCord[0], aCord[1] - 0 + 1);
+		aNbhdIDs["r"] = sNbhdID;
+	}
+
+	// up neighbor
+	if (aCord[0] > 0) {
+		sNbhdID = Cord2ID(aCord[0] - 1, aCord[1]);
+		aNbhdIDs["u"] = sNbhdID;
+	}
+	// down neighbor
+	if (aCord[0] < 8) {
+		sNbhdID = Cord2ID(aCord[0] - 0 + 1, aCord[1]);
+		aNbhdIDs["d"] = sNbhdID;
+	}
 	
-	
+	// debug
+	console.log(aNbhdIDs);
+	return aNbhdIDs;
 }
 function selectCell(element) {
 	var oSelectedElement = $(element);
 	var sSelectedID = oSelectedElement.attr("id");
 
 	// if element is non-empty
-	if (!isEmpty(oSelectedElement)) {
+	if (!isEmpty(sSelectedID)) {
 		// if element is active
 		if (sSelectedID == sSourceCellID) {
 			// deactivate
@@ -95,7 +124,7 @@ function selectCell(element) {
 		sSourceCellID = sSelectedID;
 		return 0;
 	} else { // if element is empty and source exists
-		if ((isEmpty(oSelectedElement)) && (sSourceCellID !== "")) {
+		if ((isEmpty(sSelectedID)) && (sSourceCellID !== "")) {
 			if (findPath(sSourceCellID, sSelectedID)) {
 				alert("found");
 				// move(sSourceCellID, sSelectedID);
@@ -105,61 +134,103 @@ function selectCell(element) {
 }
 
 function findPath(sSourceCellID, sTargetCellID) {
-	// auxiliary functions
-	
+
 	// basic variables
-	// distances to target
-	var aDistToTarget = [];
-	
+	var pathFound = false;
+
 	// unvisited cells
-	var aUnvisitedCells =[];
+	var aUnvisitedCells = [];
 	
+	//  save all the (empty) cells
+	var aAllCells ={};
+	// distant to Target
+	// var aAllCellsID = {};
+
 	// temp variables
-	var x,y,sCurrentCell;
-	var nMinDistToTarget=0;
+	var x, y, sCurrentCellID;
+	var nMinDistToTarget = 0;
+
+	// number of open cells
+	var nUnvisitedCellCount=0;
+	
+	// auxiliary functions
+
+	function sortUnvisitedCells(){
+		// sort unvisited cells by increasing distance
+		aUnvisitedCells.sort(function(a,b){
+			return a.distToTarget-b.distToTarget;
+		});
+		
+		// debug
+		$("#mainFooter").html(aUnvisitedCells[0].distToTarget);
+	}
+	
+	function updateCells(){};
+	// end auxiliary functions
+	
 	
 	// initialization
-	for (x=0;x<8;x++){
-		for (y=0;y<8;y++){
-			sCurrentCell = Cord2ID(x,y);
-			
-			if (isEmpty(sCurrentCell)){
-				aDistToTarget[sCurrentCell]=(sTargetCellID==sCurrentCell)?0:20;
-				aUnvisitedCells.push();
-				$("#"+sCurrentCell).addClass("open");
+	for (x = 0; x < 9; x++) {
+		for (y = 0; y < 9; y++) {
+			sCurrentCellID = Cord2ID(x, y);
+
+			if (isEmpty(sCurrentCellID) || (sCurrentCellID == sSourceCellID)) {
+								
+				aUnvisitedCells.push({
+					id:sCurrentCellID,
+					distToTarget : (sCurrentCellID == sTargetCellID) ? 0 : 20,
+					nextCellID : ""
+				});
+				
+				aAllCells[sCurrentCellID]=aUnvisitedCells[nUnvisitedCellCount++];
 			}
 		}
 	}
-	// end intialization
+	sortUnvisitedCells();
+
 	
-	while (aUnvisitedCells.length>0){
-		// find shortest distance
-		nMinDistToTarget=Math.min.apply(Math,aDistToTarget);
-		
-		// current cell ID
-		sCurrentCell=$.inArray(nMinDistToTarget,aDistToTarget);
+	// init Unvisited cells
+// aUnvisitedCells.push({
+// id : sTargetCellID,
+// nextID : "",
+// nDistToTarget : 0
+// });
+// nOpenCellCount++;
+	// end intialization
+
+	var oCurrentCell, sNextCellID, tempDist;
+	var aNbhdIDs;
+	while (nUnvisitedCellCount > 0) {
+		oCurrentCell = aUnvisitedCells.shift();
+		nUnvisitedCellCount--;
+		if (oCurrentCell.distToTarget===20){
+			return false;
+		}
+		sCurrentCellID = oCurrentCell.id;
+
+		aNbhdIDs = getNbhd(sCurrentCellID);
+
+		$.each(aNbhdIDs, function(direction, sNextCellID) {
+			console.log("hello");
+			if (sNextCellID === sSourceCellID) {
+				pathFound = true;	// found path
+				return false;
+			}
+			
+			tempDist=aAllCells[sCurrentCellID].distToTarget*1+1;
+			if (aAllCells[sNextCellID].distToTarget>tempDist){
+				aAllCells[sNextCellID].distToTarget=tempDist;
+				aAllCells[sCurrentCellID].nextCellID=sNextCellID;
+				
+				// debug
+				console.log(sNextCellID+":"+tempDist)
+				("#"+sNextCellID).html(tempDist);
+			}
+		});
 		
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	return pathFound;
+
 }
