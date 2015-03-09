@@ -8,13 +8,13 @@ var aEmptyCellIDs = [];
 var nTotalScore=0;
 var aNextBalls = [ {
 	id : "nextBall0",
-	color : 0
+	color : 1
 }, {
 	id : "nextBall1",
-	color : 0
+	color : 1
 }, {
 	id : "nextBall2",
-	color : 0
+	color : 1
 } ];
 
 function isEmpty(sCellID) {
@@ -31,6 +31,8 @@ function id2Cord(sCellID) {
 
 function setColor(nNewColor, oCell) {
 	var sCellID = oCell.id;
+	console.log("set color ");
+	console.log(oCell);
 	var nCellColor = oCell.color;
 
 	if (nCellColor === 0) { // previously empty
@@ -42,12 +44,14 @@ function setColor(nNewColor, oCell) {
 	oCell.color = nNewColor; // set the new color to cell object
 
 	// $("#" + sCellID).html(nNewColor); //change the cell on game bor
+	
 	$("#" + sCellID).css("background-image",
 			"url(./images/" + nNewColor + ".png)");
 	if (nNewColor === 0) {
 		aEmptyCellIDs.push(sCellID);
 		nEmptyCellCount++;
 	}
+	console.log("empty cells: "+nEmptyCellCount+". array: "+aEmptyCellIDs.length);
 }
 
 function newGame() {
@@ -73,15 +77,14 @@ function newGame() {
 				id : sNewCellID,
 				distToTarget : Infinity,
 				nextCellID : "",
-				color : 0,
+				color : 1,
 				active : false
 			};
-			if (isEmpty(sNewCellID)) {
-				nEmptyCellCount++;
-				aEmptyCellIDs.push(sNewCellID);
-			}
-			console.log(aCellByIDs[sNewCellID]);
-			//$("#" + sNewCellID).html(sNewCellID);
+//			if (isEmpty(sNewCellID)) {
+//				nEmptyCellCount++;
+//				aEmptyCellIDs.push(sNewCellID);
+//			}
+			setColor(0,aCellByIDs[sNewCellID]);
 		}
 	}
 	
@@ -235,22 +238,23 @@ function getNextBallColors() {
 
 // put the next balls to board randomly
 function pushNextBallsToBoard() {
-	var x, y; // random cordinates
 	var nNewEmptyCellKey;
 	var sNewEmptyCellID;
 	for (var i = 0; i < 3; i++) {
-		if (nEmptyCellCount === 0) {
-			return false;
-		}
 		// find an empty cell
 		nNewEmptyCellKey = Math.floor(Math.random() * nEmptyCellCount);
 		sNewEmptyCellID = aEmptyCellIDs[nNewEmptyCellKey];
 		// 
 
-		nEmptyCellCount--; // update empty cell count
-		aEmptyCellIDs.splice(nNewEmptyCellKey, 1); // delete the (now filled) empty cell out of list.
+		//nEmptyCellCount--; // update empty cell count
+		//aEmptyCellIDs.splice(nNewEmptyCellKey, 1); // delete the (now filled) empty cell out of list.
 		setColor(aNextBalls[i].color, aCellByIDs[sNewEmptyCellID]); // set new color, place the ball
 		findColorBlocks(sNewEmptyCellID);
+		if (nEmptyCellCount ===0) {
+			alert("game ends");
+			newGame();
+			//return false;
+		}
 	}
 	getNextBallColors();
 	return true;
@@ -297,7 +301,7 @@ function selectCell(eSelectedCell) {
 				makeMove(sSelectedCellID);
 				if (!findColorBlocks(sSelectedCellID)) {
 					// setNextBallColors();
-					pushNextBallsToBoard();
+					console.log(pushNextBallsToBoard());
 				}
 			}
 		}
@@ -361,7 +365,8 @@ function findColorBlocks(sCenterCellID) { // function to find color blocks
 					aThisCord[1]*1	 + aDirections[direction][1] * nStep);
 		}
 
-		console.log('found '+aDirectionBlock);
+		console.log('found ');
+		console.log(aDirectionBlock);
 		
 		if (aDirectionBlock.length > 3) { // if more than
 			bBlockFound = true;

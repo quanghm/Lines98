@@ -3,8 +3,8 @@
 .boardCell {
 /* 	display: inline-block; */
 /* 	position:static; */
-	width: 10vmin;
-	height: 10vmin;
+	width: 9vmin;
+	height: 9vmin;
 	padding:0;
 	background-position:center;
 	background-size:contain;
@@ -13,12 +13,13 @@
 }
 #gameBoard{
 /* 	background-image:url("../images/board.png"); */
+	text-align:center;
 	background-position:center;
 	background-size:contain;
 	background-repeat:no-repeat;
-	margin-left:-.5em ;
-	width:95vmin;
-	height:95vmin;
+/* 	margin-left:-.5em ; */
+	width:90vmin;
+	height:90vmin;
 }
 
 .boardCell.active {
