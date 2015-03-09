@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "lines98.quangSoftware.com"
+        version     = "1.1.1" >
+
+    <!-- versionCode is optional and Android only -->
+
+    <name>Lines 98</name>
+
+    <description>Ancient old game</description>
+	
+    <author href="http://basicmath.skku.edu" email="quanghm@gmail.com">
+        Quang Hoang
+    </author>
+    
+	<preference name="fullscreen" value="true" />
+	
+	<icon src="icon.png" />
+	
+	<!-- feature list -->
+	<feature name="http://api.phonegap.com/1.0/network" />
+
+</widget>

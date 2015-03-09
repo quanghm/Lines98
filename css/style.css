@@ -1,12 +1,24 @@
 @CHARSET "UTF-8";
 
 .boardCell {
-	display: inline-block;
-	width: 10vw;
-	height: 10vw;
-	line-height: 10vw;
-	background-color: lightgray;
-	text-align: center;
+/* 	display: inline-block; */
+/* 	position:static; */
+	width: 10vmin;
+	height: 10vmin;
+	padding:0;
+	background-position:center;
+	background-size:contain;
+	background-repeat:no-repeat;
+	font-size:50%;
+}
+#gameBoard{
+/* 	background-image:url("../images/board.png"); */
+	background-position:center;
+	background-size:contain;
+	background-repeat:no-repeat;
+	margin-left:-.5em ;
+	width:95vmin;
+	height:95vmin;
 }
 
 .boardCell.active {
