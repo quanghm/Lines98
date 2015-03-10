@@ -5,7 +5,8 @@ var aCellByIDs = [];
 var sActiveCellID = "";
 var nEmptyCellCount = 0;
 var aEmptyCellIDs = [];
-var nTotalScore=0;
+var nTotalScore = 0;
+var nMaxColor = 6;
 var aNextBalls = [ {
 	id : "nextBall0",
 	color : 1
@@ -44,14 +45,15 @@ function setColor(nNewColor, oCell) {
 	oCell.color = nNewColor; // set the new color to cell object
 
 	// $("#" + sCellID).html(nNewColor); //change the cell on game bor
-	
+
 	$("#" + sCellID).css("background-image",
 			"url(./images/" + nNewColor + ".png)");
 	if (nNewColor === 0) {
 		aEmptyCellIDs.push(sCellID);
 		nEmptyCellCount++;
 	}
-	console.log("empty cells: "+nEmptyCellCount+". array: "+aEmptyCellIDs.length);
+	console.log("empty cells: " + nEmptyCellCount + ". array: "
+			+ aEmptyCellIDs.length);
 }
 
 function newGame() {
@@ -80,14 +82,14 @@ function newGame() {
 				color : 1,
 				active : false
 			};
-//			if (isEmpty(sNewCellID)) {
-//				nEmptyCellCount++;
-//				aEmptyCellIDs.push(sNewCellID);
-//			}
-			setColor(0,aCellByIDs[sNewCellID]);
+			// if (isEmpty(sNewCellID)) {
+			// nEmptyCellCount++;
+			// aEmptyCellIDs.push(sNewCellID);
+			// }
+			setColor(0, aCellByIDs[sNewCellID]);
 		}
 	}
-	
+
 	// initialize Score
 	$("#score").html(nTotalScore);
 
@@ -231,7 +233,7 @@ function findPath(sSelectedCellID) {
 function getNextBallColors() {
 	var nNewColor;
 	for (var i = 0; i < 3; i++) {
-		nNewColor = Math.floor(Math.random() * 5) + 1; // new color
+		nNewColor = Math.floor(Math.random() * nMaxColor) + 1; // new color
 		setColor(nNewColor, aNextBalls[i]);
 	}
 }
@@ -246,14 +248,18 @@ function pushNextBallsToBoard() {
 		sNewEmptyCellID = aEmptyCellIDs[nNewEmptyCellKey];
 		// 
 
-		//nEmptyCellCount--; // update empty cell count
-		//aEmptyCellIDs.splice(nNewEmptyCellKey, 1); // delete the (now filled) empty cell out of list.
-		setColor(aNextBalls[i].color, aCellByIDs[sNewEmptyCellID]); // set new color, place the ball
+		// nEmptyCellCount--; // update empty cell count
+		// aEmptyCellIDs.splice(nNewEmptyCellKey, 1); // delete the (now filled)
+		// empty cell out of list.
+		setColor(aNextBalls[i].color, aCellByIDs[sNewEmptyCellID]); // set new
+																	// color,
+																	// place the
+																	// ball
 		findColorBlocks(sNewEmptyCellID);
-		if (nEmptyCellCount ===0) {
+		if (nEmptyCellCount === 0) {
 			alert("game ends");
 			newGame();
-			//return false;
+			// return false;
 		}
 	}
 	getNextBallColors();
@@ -261,32 +267,49 @@ function pushNextBallsToBoard() {
 }
 
 function makeMove(sSelectedCellID) {
+	var nNewColor = aCellByIDs[sActiveCellID].color;
+	var nMoveTime = 0;
+	var nTimePerStep = 60;
 	var sCurrentCellID = sActiveCellID;
 	var eProxyDiv = $("<div/>", {
 		class : "boardCell",
 		id : "proxyDiv",
-		color : aCellByIDs[sActiveCellID].color,
+		color : nNewColor,
 	}).appendTo($("#gameBoard"));
-	eProxyDiv.css("z-index", "100").css("position", "fixed");
+	// paint the ball
+	$("#proxyDiv").css("background-image",
+			"url(./images/" + nNewColor + ".png)");
 
 	var aCurrentCord, aNextCord;
-	// asign new cell color to terminal cell
-	setColor(aCellByIDs[sActiveCellID].color, aCellByIDs[sSelectedCellID]);
+
+	// empty initial cell
+	setColor(0, aCellByIDs[sActiveCellID]);
+
 	aNextCord = $("#" + sCurrentCellID).position();//
 	eProxyDiv.offset(aNextCord); // put proxy cell over intial cell
 
 	while (sCurrentCellID !== sSelectedCellID) { // Cell isn't target
 		sCurrentCellID = aCellByIDs[sCurrentCellID].nextCellID;// update next
-																// cell
+		// cell
 		// get next display coord
 		aNextCord = $("#" + sCurrentCellID).offset();
-		eProxyDiv.animate(aNextCord); // put proxy over next cell
+		eProxyDiv.animate(aNextCord, nTimePerStep); // put proxy over next cell
+		nMoveTime+=nTimePerStep;
+		console.log(nMoveTime);
 	}
 
-	// empty initial cell
-	setColor(0, aCellByIDs[sActiveCellID]);
-	toggleActive(sActiveCellID); // disactivate initial cell
-	eProxyDiv.remove();
+	setTimeout(function() {
+		// asign new cell color to terminal cell
+		setColor(nNewColor, aCellByIDs[sSelectedCellID]);
+
+		toggleActive(sActiveCellID); // disactivate initial cell
+		$("#proxyDiv").remove();
+		
+		if (!findColorBlocks(sSelectedCellID)) {
+			// setNextBallColors();
+			console.log(pushNextBallsToBoard());
+		}
+	}, nMoveTime);
 }
 
 function selectCell(eSelectedCell) {
@@ -299,20 +322,16 @@ function selectCell(eSelectedCell) {
 		if (sActiveCellID !== "") { // and there's an active cell
 			if (findPath(sSelectedCellID)) {
 				makeMove(sSelectedCellID);
-				if (!findColorBlocks(sSelectedCellID)) {
-					// setNextBallColors();
-					console.log(pushNextBallsToBoard());
-				}
 			}
 		}
 	}
 }
 
 function findColorBlocks(sCenterCellID) { // function to find color blocks
-											// around a cell, returns the cells'
-											// IDs
+	// around a cell, returns the cells'
+	// IDs
 	var aBlockCellIDs = [ sCenterCellID ]; // cells found in all direction if
-											// eligible
+	// eligible
 	var aDirectionBlock = []; // cells found in current direction
 	var aDirections = [ [ 0, 1 ], [ 1, 0 ], [ 1, 1 ], [ 1, -1 ] ]; // directions
 	var nStep = 0;
@@ -320,54 +339,56 @@ function findColorBlocks(sCenterCellID) { // function to find color blocks
 	var nThisColor = aCellByIDs[sCenterCellID].color;
 	var sTempID;
 	var bBlockFound = false;
-	console.log("checking "+sCenterCellID);
+	console.log("checking " + sCenterCellID);
 	console.log(aThisCord);
 	console.log(aDirections);
 
-	
 	for (var direction = 0; direction < 4; direction++) {
 		aDirectionBlock.length = 0;
 		// aDirectionBlock.push(sCenterCellID);
 		console.log();
-		console.log("direction "+aDirections[direction][0]+","+aDirections[direction][1]);
-		
+		console.log("direction " + aDirections[direction][0] + ","
+				+ aDirections[direction][1]);
+
 		nStep = 1;
-		
-		sTempID = cord2ID(aThisCord[0]*1 + aDirections[direction][0] * nStep,
-				aThisCord[1]*1	 + aDirections[direction][1] * nStep);
-		console.log("step: "+sTempID);
+
+		sTempID = cord2ID(aThisCord[0] * 1 + aDirections[direction][0] * nStep,
+				aThisCord[1] * 1 + aDirections[direction][1] * nStep);
+		console.log("step: " + sTempID);
 		console.log(aCellByIDs[sTempID]);
-		
+
 		while (aCellByIDs[sTempID] !== undefined) {// check next cell color --
-													// POSITIVE direction
-			console.log("step: "+sTempID);
+			// POSITIVE direction
+			console.log("step: " + sTempID);
 			if (aCellByIDs[sTempID].color == nThisColor) {
 				aDirectionBlock.push(sTempID);
 				nStep++;
-				sTempID = cord2ID(aThisCord[0]*1 + aDirections[direction][0] * nStep,
-						aThisCord[1]*1	 + aDirections[direction][1] * nStep);
+				sTempID = cord2ID(aThisCord[0] * 1 + aDirections[direction][0]
+						* nStep, aThisCord[1] * 1 + aDirections[direction][1]
+						* nStep);
 			} else {
 				break;
 			}
 		}
 
 		nStep = -1;
-		sTempID = cord2ID(aThisCord[0]*1 + aDirections[direction][0] * nStep,
-				aThisCord[1]*1	 + aDirections[direction][1] * nStep);
+		sTempID = cord2ID(aThisCord[0] * 1 + aDirections[direction][0] * nStep,
+				aThisCord[1] * 1 + aDirections[direction][1] * nStep);
 		while ((aCellByIDs[sTempID] != undefined)
 				&& (aCellByIDs[sTempID].color == nThisColor)) {// check next
-																// cell color --
-																// negative
-																// direction
+			// cell color --
+			// negative
+			// direction
 			aDirectionBlock.push(sTempID);
 			nStep--;
-			sTempID = cord2ID(aThisCord[0]*1 + aDirections[direction][0] * nStep,
-					aThisCord[1]*1	 + aDirections[direction][1] * nStep);
+			sTempID = cord2ID(aThisCord[0] * 1 + aDirections[direction][0]
+					* nStep, aThisCord[1] * 1 + aDirections[direction][1]
+					* nStep);
 		}
 
 		console.log('found ');
 		console.log(aDirectionBlock);
-		
+
 		if (aDirectionBlock.length > 3) { // if more than
 			bBlockFound = true;
 			aBlockCellIDs.push.apply(aBlockCellIDs, aDirectionBlock);
@@ -380,15 +401,15 @@ function findColorBlocks(sCenterCellID) { // function to find color blocks
 		for (var i = 0; i < aBlockCellIDs.length; i++) {
 			setColor(0, aCellByIDs[aBlockCellIDs[i]]);
 		}
-		nTotalScore+= Math.floor(Math.exp(aBlockCellIDs.length*Math.log(1.4)));
+		nTotalScore += Math.floor(Math
+				.exp(aBlockCellIDs.length * Math.log(1.4)));
 		$("#score").html(nTotalScore);
 	}
 	return bBlockFound;
 }
 
-
 // button functions
 
-$("#menuRefresh").click(function(){
+$("#menuRefresh").click(function() {
 	location.reload();
 })

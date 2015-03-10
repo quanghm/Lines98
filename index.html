@@ -13,13 +13,14 @@
 <link rel="stylesheet"
 	href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 <link rel="stylesheet" href="./css/style.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
 <script
 	src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script src="./js/jquery.touchSwipe.min.js"></script>
 </head>
-<body>
-	<div data-role="page">
+<body class="ui-mobile-viewport ui-overlay-c">
+	<!-- page 1 - main game play -->
+	<div data-role="page" id="pgMainGamePlay" class="ui-page ui-body-c ui-page-active">
 		<!-- begin main menu -->
 		<div id="mainMenu" data-role="panel" data-display="overlay">
 			<div id="menuRefresh" class="ui-btn">Refresh</div>
@@ -29,9 +30,9 @@
 		<!-- begin head banner -->
 		<div id="banner" data-role="header">
 			<h1 role="heading" class="ui-title">Lines 98</h1>
-			<a href="#mainMenu"
+			<a href="#pgMainMenu"
 				class="ui-nodisc-icon ui-alt-icon ui-btn-left ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all"
-				data-role="button" role="button">Menu</a>
+				data-role="button" data-transition="slideup">Menu</a>
 		</div>
 		<!-- end head banner -->
 
@@ -505,8 +506,24 @@
 		<!-- begin footer -->
 		<div id="mainFooter" data-role="footer"></div>
 	</div>
+	<div data-role="popup" id="pgMainMenu" data-url="pgMainMenu" class="ui-page ui-body-a">
+		<div data-role="header">
+		</div>
+		<div data-role="content">
+		<a data-role="button" class="ui-btn" id="mainMenuNewGame" href="pgMainGamePlay">New Game</a>
+		<a data-role="button" class="ui-btn" id="mainMenuSaveGame">Save Game</a>
+		<a data-role="button" class="ui-btn" id="mainMenuLoadGame">Load Game</a>
+		<a data-role="button" class="ui-btn" id="mainMenuHighscores		">Highscores</a>
+		<a data-role="button" class="ui-btn" id="mainMenuCancel" href="#pgMainGamePlay">Cancel</a>
+		</div>
+		<div data-role="footer"></div>
+	</div>
 	<script type="text/javascript" src="./js/lines98.js"></script>
 	<script type="text/javascript">
+		$("#mainMenuNewGame").click(function(){
+			newGame();
+			//$("#mainMenuCancel").trigger("click");
+		});
 		$(document).ready(function() {
 			newGame();
 		})

@@ -10,6 +10,7 @@
 	background-size:contain;
 	background-repeat:no-repeat;
 	font-size:50%;
+	background-color:transparent;	
 }
 #gameBoard{
 /* 	background-image:url("../images/board.png"); */
@@ -20,6 +21,10 @@
 /* 	margin-left:-.5em ; */
 	width:90vmin;
 	height:90vmin;
+}
+#proxyDiv{
+	position:fixed;
+	z-index:1000;
 }
 
 .boardCell.active {
