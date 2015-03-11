@@ -1,5 +1,11 @@
 @CHARSET "UTF-8";
 
+.boardCellContainer{
+	background-color:transparent;	
+	width: 9vmin;
+	height: 9vmin;
+	padding:0;
+}
 .boardCell {
 /* 	display: inline-block; */
 /* 	position:static; */
@@ -28,7 +34,28 @@
 }
 
 .boardCell.active {
-	background-color: lightgreen;
+/* 	background-color:lightgreen; 
+	background-size:50%;
+*/
+-webkit-animation: cssAnimation 0.591s alternate infinite;
+-moz-animation: cssAnimation 0.591s alternate infinite;
+-o-animation: cssAnimation 0.591s alternate infinite;
+}
+@-webkit-keyframes cssAnimation {
+from { 
+	-webkit-transform: rotate(0deg) scale(0.4) skew(1deg) translate(0px);
+ }
+to { 
+	-webkit-transform: rotate(0deg) scale(0.8) skew(1deg) translate(0px); 
+}
+}
+@-moz-keyframes cssAnimation {
+from { -moz-transform: rotate(0deg) scale(0.467) skew(1deg) translate(0px); }
+to { -moz-transform: rotate(0deg) scale(0.899) skew(1deg) translate(0px); }
+}
+@-o-keyframes cssAnimation {
+from { -o-transform: rotate(0deg) scale(0.467) skew(1deg) translate(0px); }
+to { -o-transform: rotate(0deg) scale(0.899) skew(1deg) translate(0px); }
 }
 
 .boardCell.open {

@@ -11,9 +11,10 @@
 
 
 <link rel="stylesheet"
-	href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	href="./css/jquery.mobile-1.4.5.min.css" />
 <link rel="stylesheet" href="./css/style.css" />
 <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="./js/jquery.crSpline.js"></script>
 <script
 	src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script src="./js/jquery.touchSwipe.min.js"></script>
@@ -32,7 +33,10 @@
 			<h1 role="heading" class="ui-title">Lines 98</h1>
 			<a href="#pgMainMenu"
 				class="ui-nodisc-icon ui-alt-icon ui-btn-left ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all"
-				data-role="button" data-transition="slideup">Menu</a>
+				data-role="button" data-transition="none">Menu</a>
+			<a href="#pgOptions"
+				class="ui-nodisc-icon ui-alt-icon ui-btn-right ui-btn ui-icon-gear ui-btn-icon-notext ui-corner-all"
+				data-role="button" data-transition="pop">Menu</a>
 		</div>
 		<!-- end head banner -->
 
@@ -49,13 +53,13 @@
 							<div class="ui-block-b">
 								<div class="ui-grid-b" style="height: 60px; line-height: 60px">
 									<div class="ui-block-a">
-										<div id="nextBall0" class="ui-bar ui-bar-a boardCell"></div>
+										<div id="nextBall0" class=" boardCell"></div>
 									</div>
 									<div class="ui-block-b">
-										<div id="nextBall1" class="ui-bar ui-bar-a boardCell"></div>
+										<div id="nextBall1" class=" boardCell"></div>
 									</div>
 									<div class="ui-block-c">
-										<div id="nextBall2" class="ui-bar ui-bar-a boardCell"></div>
+										<div id="nextBall2" class=" boardCell"></div>
 									</div>
 								</div>
 							</div>
@@ -67,432 +71,433 @@
 							<div class="ui-block-a">
 								<div class="ui-grid-b">
 									<div class="ui-block-a">
-										<div id="0_0" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+										<div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="0_0" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="0_1" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="0_1" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="0_2" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="0_2" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-b">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="0_3" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="0_3" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="0_4" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="0_4" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="0_5" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="0_5" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-c">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="0_6" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="0_6" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="0_7" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="0_7" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="0_8" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="0_8" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-a">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="1_0" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="1_0" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="1_1" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="1_1" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="1_2" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="1_2" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-b">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="1_3" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="1_3" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="1_4" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="1_4" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="1_5" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="1_5" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-c">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="1_6" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="1_6" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="1_7" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="1_7" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="1_8" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="1_8" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-a">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="2_0" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="2_0" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="2_1" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="2_1" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="2_2" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="2_2" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-b">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="2_3" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="2_3" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="2_4" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="2_4" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="2_5" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="2_5" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-c">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="2_6" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="2_6" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="2_7" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="2_7" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="2_8" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="2_8" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-a">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="3_0" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="3_0" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="3_1" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="3_1" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="3_2" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="3_2" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-b">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="3_3" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="3_3" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="3_4" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="3_4" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="3_5" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="3_5" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-c">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="3_6" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="3_6" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="3_7" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="3_7" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="3_8" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="3_8" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-a">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="4_0" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="4_0" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="4_1" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="4_1" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="4_2" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="4_2" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-b">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="4_3" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="4_3" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="4_4" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="4_4" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="4_5" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="4_5" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-c">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="4_6" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="4_6" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="4_7" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="4_7" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="4_8" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="4_8" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-a">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="5_0" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="5_0" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="5_1" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="5_1" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="5_2" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="5_2" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-b">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="5_3" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="5_3" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="5_4" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="5_4" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="5_5" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="5_5" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-c">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="5_6" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="5_6" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="5_7" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="5_7" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="5_8" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="5_8" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-a">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="6_0" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="6_0" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="6_1" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="6_1" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="6_2" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="6_2" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-b">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="6_3" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="6_3" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="6_4" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="6_4" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="6_5" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="6_5" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-c">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="6_6" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="6_6" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="6_7" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="6_7" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="6_8" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="6_8" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-a">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="7_0" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="7_0" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="7_1" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="7_1" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="7_2" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="7_2" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-b">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="7_3" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="7_3" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="7_4" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="7_4" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="7_5" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="7_5" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-c">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="7_6" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="7_6" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="7_7" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="7_7" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="7_8" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="7_8" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-a">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="8_0" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="8_0" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="8_1" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="8_1" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="8_2" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="8_2" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-b">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="8_3" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="8_3" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="8_4" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="8_4" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="8_5" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="8_5" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
 							<div class="ui-block-c">
 								<div class="ui-grid-b">
-									<div class="ui-block-a">
-										<div id="8_6" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-a"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="8_6" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-b">
-										<div id="8_7" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-b"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="8_7" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
-									<div class="ui-block-c">
-										<div id="8_8" class="ui-bar ui-bar-a boardCell"
-											onclick="selectCell(this);"></div>
+									<div class="ui-block-c"><div class="ui-bar ui-bar-a boardCellContainer">
+										<div id="8_8" class=" boardCell"
+											onclick="selectCell(this);"></div></div>
 									</div>
 								</div>
 							</div>
@@ -506,18 +511,42 @@
 		<!-- begin footer -->
 		<div id="mainFooter" data-role="footer"></div>
 	</div>
-	<div data-role="popup" id="pgMainMenu" data-url="pgMainMenu" class="ui-page ui-body-a">
+	<!-- Main menu page -->
+	<div data-role="page" id="pgMainMenu" data-url="pgMainMenu" class="ui-page ui-body-a">
 		<div data-role="header">
 		</div>
 		<div data-role="content">
-		<a data-role="button" class="ui-btn" id="mainMenuNewGame" href="pgMainGamePlay">New Game</a>
-		<a data-role="button" class="ui-btn" id="mainMenuSaveGame">Save Game</a>
-		<a data-role="button" class="ui-btn" id="mainMenuLoadGame">Load Game</a>
-		<a data-role="button" class="ui-btn" id="mainMenuHighscores		">Highscores</a>
-		<a data-role="button" class="ui-btn" id="mainMenuCancel" href="#pgMainGamePlay">Cancel</a>
+		<a data-role="button" class="ui-btn" id="mainMenuNewGame" href="#pgMainGamePlay">New Game</a>
+		<a data-role="button" class="ui-btn" id="mainMenuSaveGame"data-rel="back">Save Game</a>
+		<a data-role="button" class="ui-btn" id="mainMenuLoadGame" data-rel="back">Load Game</a>
+		<a data-role="button" class="ui-btn" id="mainMenuHighscores">Highscores</a>
+		<a data-role="button" class="ui-btn" id="mainMenuOptions" href="#pgOptions">Options</a>
+		<a data-role="button" class="ui-btn" id="mainMenuCancel" data-rel="back">Cancel</a>
 		</div>
-		<div data-role="footer"></div>
+		<div data-role="footer"></div>	<!-- begin game dialog -->
+<!-- 	<div class="ui-popup-screen" id="popupDialog-screen"></div> -->
+<!-- 	<div class="ui-popup-container" id="popupDialog-popup"> -->
+<!-- 	<div data-role="popup" id="popupDialog" data-position-to="window"></div> -->
+<!-- 	</div> -->
+<!-- 	end game dialog -->
 	</div>
+	
+	<!-- Begin Option page -->
+		<div data-role="page" id="pgOptions" data-url="pgOptions" class="ui-page ui-body-a">
+			<div data-role="header">
+			</div>
+			<div data-role="content">
+				<a data-role="button" class="ui-btn" id="opt" href="#pgMainGamePlay">New Game</a>
+				<a data-role="button" class="ui-btn" id="opt" >Save Game</a>
+				<a data-role="button" class="ui-btn" id="opt">Load Game</a>
+				<a data-role="button" class="ui-btn" id="optCancel" data-rel="back">Cancel</a>
+			</div>
+			<div data-role="footer">
+			</div>
+		</div>
+	<!-- End Option Page -->
+	
+
 	<script type="text/javascript" src="./js/lines98.js"></script>
 	<script type="text/javascript">
 		$("#mainMenuNewGame").click(function(){

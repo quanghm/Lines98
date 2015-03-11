@@ -1,12 +1,9 @@
 //	global variables
-var sInitialCellID = ""; // id of intial cell
-var sTerminalCellID = ""; // id of terminal cell
 var aCellByIDs = [];
 var sActiveCellID = "";
-var nEmptyCellCount = 0;
 var aEmptyCellIDs = [];
 var nTotalScore = 0;
-var nMaxColor = 6;
+var nMaxColor = 7;
 var aNextBalls = [ {
 	id : "nextBall0",
 	color : 1
@@ -32,70 +29,92 @@ function id2Cord(sCellID) {
 
 function setColor(nNewColor, oCell) {
 	var sCellID = oCell.id;
-	console.log("set color ");
-	console.log(oCell);
 	var nCellColor = oCell.color;
 
-	if (nCellColor === 0) { // previously empty
+	if ((nNewColor !== nCellColor) && (nCellColor === 0)) { // previously empty
 		// remove cell from list of empty cells
 		aEmptyCellIDs.splice($.inArray(sCellID, aEmptyCellIDs), 1);
-		nEmptyCellCount--;
 	}
 
 	oCell.color = nNewColor; // set the new color to cell object
-
-	// $("#" + sCellID).html(nNewColor); //change the cell on game bor
 
 	$("#" + sCellID).css("background-image",
 			"url(./images/" + nNewColor + ".png)");
 	if (nNewColor === 0) {
 		aEmptyCellIDs.push(sCellID);
-		nEmptyCellCount++;
+		// nEmptyCellCount++;
 	}
-	console.log("empty cells: " + nEmptyCellCount + ". array: "
-			+ aEmptyCellIDs.length);
 }
 
-function newGame() {
+function newGame(sLoadGame) { // sLoadGame=="load" -> load saved game
+	if (sLoadGame === undefined) {
+		sLoadGame = "";
+	}
 	var nNewColor;
 	var sNewCellID;
 
-	// reset variables
-	nEmptyCellCount = 0;
-	sActiveCellID = "";
+	aCellByIDs.length = 0;
 	aEmptyCellIDs.length = 0;
-	nTotalScore = 0;
+	sActiveCellID = "";
 
-	// reset all cells
-	for (var x = 0; x < 9; x++) {
-		for (var y = 0; y < 9; y++) {
-			sNewCellID = cord2ID(x, y);
+	if (sLoadGame === "load") {
 
-			// debug
-			// nNewColor = Math.floor(Math.random() * 6);
-			// end debug
+		nTotalScore = window.localStorage.getItem("nTotalScore");
+		nMaxColor = window.localStorage.getItem("nMaxColor");
 
-			aCellByIDs[sNewCellID] = {
-				id : sNewCellID,
-				distToTarget : Infinity,
-				nextCellID : "",
-				color : 1,
-				active : false
-			};
-			// if (isEmpty(sNewCellID)) {
-			// nEmptyCellCount++;
-			// aEmptyCellIDs.push(sNewCellID);
-			// }
-			setColor(0, aCellByIDs[sNewCellID]);
+		// load boad
+		for (var x = 0; x < 9; x++) {
+			for (var y = 0; y < 9; y++) {
+				sNewCellID = cord2ID(x, y);
+
+				aCellByIDs[sNewCellID] = JSON.parse(window.localStorage
+						.getItem(sNewCellID));
+
+				setColor(aCellByIDs[sNewCellID].color, aCellByIDs[sNewCellID]);
+			}
 		}
+
+		// // set color
+		// for (var x = 0; x < 9; x++) {
+		// for (var y = 0; y < 9; y++) {
+		// sNewCellID = cord2ID(x, y);
+		// setColor(aCellByIDs[sNewCellID].color, aCellByIDs[sNewCellID]);
+		// }
+		// }
+
+		// set next Ball color
+		for (var i = 0; i < 3; i++) {
+			aNextBalls[i] = JSON.parse(window.localStorage.getItem("nextBall"
+					+ i));
+			setColor(aNextBalls[i].color, aNextBalls[i]);
+		}
+
+	} else { // reset variables
+		nTotalScore = 0;
+
+		// reset all cells
+		for (var x = 0; x < 9; x++) {
+			for (var y = 0; y < 9; y++) {
+				sNewCellID = cord2ID(x, y);
+
+				aCellByIDs[sNewCellID] = {
+					id : sNewCellID,
+					distToTarget : Infinity,
+					nextCellID : "",
+					color : 1,
+					active : false
+				};
+				setColor(0, aCellByIDs[sNewCellID]);
+			}
+		}
+
+		// initialize game board with random balls
+		getNextBallColors();
+		pushNextBallsToBoard();
 	}
 
 	// initialize Score
 	$("#score").html(nTotalScore);
-
-	// initialize game board with random balls
-	getNextBallColors();
-	pushNextBallsToBoard();
 }
 
 // get all neghbors of a cell
@@ -129,8 +148,6 @@ function getNbhd(sCellID) {
 		aNbhdIDs["d"] = sNbhdID;
 	}
 
-	// debug
-	// console.log(aNbhdIDs);
 	return aNbhdIDs;
 }
 
@@ -183,8 +200,6 @@ function findPath(sSelectedCellID) {
 		return (a.distToTarget - b.distToTarget);
 	});
 
-	// debug
-	// console.log(aUnvisitedCells);
 	// done init Unvisited Cells
 
 	while (nOpenCellCount > 0) {
@@ -192,15 +207,7 @@ function findPath(sSelectedCellID) {
 		sCurrentCellID = oCurrentCell.id;
 		nOpenCellCount--;
 
-		// debug
-		// console.log(sCurrentCellID);
-		// end debug
-
 		if (aCellByIDs[sCurrentCellID].distToTarget === Infinity) {
-			// debug
-			console.log("no path found");
-			// end debug
-
 			return false; // no path found
 		}
 		aNbhdIDs = getNbhd(sCurrentCellID);
@@ -221,7 +228,6 @@ function findPath(sSelectedCellID) {
 			}
 		});
 		if (pathFound) {
-			console.log("path Found");
 			return true;
 		}
 		aUnvisitedCells.sort(function(a, b) {
@@ -242,24 +248,18 @@ function getNextBallColors() {
 function pushNextBallsToBoard() {
 	var nNewEmptyCellKey;
 	var sNewEmptyCellID;
+
 	for (var i = 0; i < 3; i++) {
 		// find an empty cell
-		nNewEmptyCellKey = Math.floor(Math.random() * nEmptyCellCount);
+		nNewEmptyCellKey = Math.floor(Math.random() * aEmptyCellIDs.length);
 		sNewEmptyCellID = aEmptyCellIDs[nNewEmptyCellKey];
-		// 
 
-		// nEmptyCellCount--; // update empty cell count
-		// aEmptyCellIDs.splice(nNewEmptyCellKey, 1); // delete the (now filled)
-		// empty cell out of list.
-		setColor(aNextBalls[i].color, aCellByIDs[sNewEmptyCellID]); // set new
-																	// color,
-																	// place the
-																	// ball
+		// set new color, place the ball
+		setColor(aNextBalls[i].color, aCellByIDs[sNewEmptyCellID]); // 
 		findColorBlocks(sNewEmptyCellID);
-		if (nEmptyCellCount === 0) {
+		if (aEmptyCellIDs.length === 0) {
 			alert("game ends");
 			newGame();
-			// return false;
 		}
 	}
 	getNextBallColors();
@@ -271,31 +271,35 @@ function makeMove(sSelectedCellID) {
 	var nMoveTime = 0;
 	var nTimePerStep = 60;
 	var sCurrentCellID = sActiveCellID;
-	var eProxyDiv = $("<div/>", {
-		class : "boardCell",
-		id : "proxyDiv",
-		color : nNewColor,
-	}).appendTo($("#gameBoard"));
-	// paint the ball
-	$("#proxyDiv").css("background-image",
-			"url(./images/" + nNewColor + ".png)");
 
 	var aCurrentCord, aNextCord;
+	var aPoints = [];
 
 	// empty initial cell
 	setColor(0, aCellByIDs[sActiveCellID]);
 
-	aNextCord = $("#" + sCurrentCellID).position();//
-	eProxyDiv.offset(aNextCord); // put proxy cell over intial cell
+	aNextCord = $("#" + sCurrentCellID).offset();//
+	var eProxyDiv = $("<div/>", {
+		class : "boardCell",
+		id : "proxyDiv",
+		color : nNewColor,
+		visibility : "hidden"
+	}).appendTo($("#gameBoard"));
+
+	$(eProxyDiv).css("background-image", "url(./images/" + nNewColor + ".png)") // paint
+	// the
+	// ball
+	.offset(aNextCord) // place on the board
+	.css("visibility", "visible"); // show it
 
 	while (sCurrentCellID !== sSelectedCellID) { // Cell isn't target
 		sCurrentCellID = aCellByIDs[sCurrentCellID].nextCellID;// update next
 		// cell
 		// get next display coord
 		aNextCord = $("#" + sCurrentCellID).offset();
+		eProxyDiv.show();
 		eProxyDiv.animate(aNextCord, nTimePerStep); // put proxy over next cell
-		nMoveTime+=nTimePerStep;
-		console.log(nMoveTime);
+		nMoveTime += nTimePerStep;
 	}
 
 	setTimeout(function() {
@@ -304,10 +308,10 @@ function makeMove(sSelectedCellID) {
 
 		toggleActive(sActiveCellID); // disactivate initial cell
 		$("#proxyDiv").remove();
-		
+
 		if (!findColorBlocks(sSelectedCellID)) {
 			// setNextBallColors();
-			console.log(pushNextBallsToBoard());
+			pushNextBallsToBoard();
 		}
 	}, nMoveTime);
 }
@@ -339,27 +343,16 @@ function findColorBlocks(sCenterCellID) { // function to find color blocks
 	var nThisColor = aCellByIDs[sCenterCellID].color;
 	var sTempID;
 	var bBlockFound = false;
-	console.log("checking " + sCenterCellID);
-	console.log(aThisCord);
-	console.log(aDirections);
 
 	for (var direction = 0; direction < 4; direction++) {
 		aDirectionBlock.length = 0;
-		// aDirectionBlock.push(sCenterCellID);
-		console.log();
-		console.log("direction " + aDirections[direction][0] + ","
-				+ aDirections[direction][1]);
-
 		nStep = 1;
 
 		sTempID = cord2ID(aThisCord[0] * 1 + aDirections[direction][0] * nStep,
 				aThisCord[1] * 1 + aDirections[direction][1] * nStep);
-		console.log("step: " + sTempID);
-		console.log(aCellByIDs[sTempID]);
 
 		while (aCellByIDs[sTempID] !== undefined) {// check next cell color --
 			// POSITIVE direction
-			console.log("step: " + sTempID);
 			if (aCellByIDs[sTempID].color == nThisColor) {
 				aDirectionBlock.push(sTempID);
 				nStep++;
@@ -386,30 +379,67 @@ function findColorBlocks(sCenterCellID) { // function to find color blocks
 					* nStep);
 		}
 
-		console.log('found ');
-		console.log(aDirectionBlock);
-
 		if (aDirectionBlock.length > 3) { // if more than
 			bBlockFound = true;
 			aBlockCellIDs.push.apply(aBlockCellIDs, aDirectionBlock);
-			console.log(aBlockCellIDs);
 		}
 	}
 
 	if (bBlockFound) { // if block found, erase it;
-		console.log("block found");
 		for (var i = 0; i < aBlockCellIDs.length; i++) {
 			setColor(0, aCellByIDs[aBlockCellIDs[i]]);
 		}
-		nTotalScore += Math.floor(Math
-				.exp(aBlockCellIDs.length * Math.log(1.4)));
+		nTotalScore = nTotalScore * 1
+				+ Math.floor(Math.exp(aBlockCellIDs.length * Math.log(1.4)));
 		$("#score").html(nTotalScore);
 	}
 	return bBlockFound;
+}
+
+/**
+ * Game Functions
+ */
+
+// save game to local storage
+function saveGame() {
+	var sNewCellID;
+
+	// save current board state
+	for (var x = 0; x < 9; x++) {
+		for (var y = 0; y < 9; y++) {
+			sNewCellID = cord2ID(x, y);
+
+			window.localStorage.setItem(sNewCellID, JSON
+					.stringify(aCellByIDs[sNewCellID]));
+		}
+	}
+	// save active cell
+	// window.localStorage.setItem("sActiveCellID",sActiveCellID);
+
+	// save next balls
+	for (var i = 0; i < 3; i++) {
+		window.localStorage.setItem("nextBall" + i, JSON
+				.stringify(aNextBalls[i]));
+	}
+
+	// save total score
+	window.localStorage.setItem("nTotalScore", nTotalScore);
+	// save game dificulty
+	window.localStorage.setItem("nMaxColor", nMaxColor);
 }
 
 // button functions
 
 $("#menuRefresh").click(function() {
 	location.reload();
+})
+
+$("#mainMenuSaveGame").click(function() {
+	saveGame();
+	alert("game saved");
+})
+$("#mainMenuLoadGame").click(function() {
+	if (confirm("Do you want to cancel this game and load the saved one?")) {
+		newGame("load");
+	}
 })
