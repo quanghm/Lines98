@@ -42,7 +42,6 @@ function setColor(nNewColor, oCell) {
 			"url(./images/" + nNewColor + ".png)");
 	if (nNewColor === 0) {
 		aEmptyCellIDs.push(sCellID);
-		// nEmptyCellCount++;
 	}
 }
 
@@ -55,10 +54,13 @@ function newGame(sLoadGame) { // sLoadGame=="load" -> load saved game
 
 	aCellByIDs.length = 0;
 	aEmptyCellIDs.length = 0;
+	// deactivate active cell if exists
+	if (sActiveCellID!==""){$("#"+sActiveCellID).removeClass("active");}
+	
 	sActiveCellID = "";
 
 	if (sLoadGame === "load") {
-
+		
 		nTotalScore = window.localStorage.getItem("nTotalScore");
 		nMaxColor = window.localStorage.getItem("nMaxColor");
 
@@ -74,23 +76,19 @@ function newGame(sLoadGame) { // sLoadGame=="load" -> load saved game
 			}
 		}
 
-		// // set color
-		// for (var x = 0; x < 9; x++) {
-		// for (var y = 0; y < 9; y++) {
-		// sNewCellID = cord2ID(x, y);
-		// setColor(aCellByIDs[sNewCellID].color, aCellByIDs[sNewCellID]);
-		// }
-		// }
-
 		// set next Ball color
 		for (var i = 0; i < 3; i++) {
-			aNextBalls[i] = JSON.parse(window.localStorage.getItem("nextBall"
-					+ i));
+			aNextBalls[i] = JSON.parse(window.localStorage.getItem("nextBall"+ i));
 			setColor(aNextBalls[i].color, aNextBalls[i]);
 		}
 
 	} else { // reset variables
 		nTotalScore = 0;
+		if ($('input:radio[name=optGameLevel]:checked').val()!==undefined){
+			nMaxColor=$('input:radio[name=optGameLevel]:checked').val();
+		} else{
+			
+		}
 
 		// reset all cells
 		for (var x = 0; x < 9; x++) {
@@ -413,8 +411,6 @@ function saveGame() {
 					.stringify(aCellByIDs[sNewCellID]));
 		}
 	}
-	// save active cell
-	// window.localStorage.setItem("sActiveCellID",sActiveCellID);
 
 	// save next balls
 	for (var i = 0; i < 3; i++) {
@@ -424,6 +420,7 @@ function saveGame() {
 
 	// save total score
 	window.localStorage.setItem("nTotalScore", nTotalScore);
+	
 	// save game dificulty
 	window.localStorage.setItem("nMaxColor", nMaxColor);
 }

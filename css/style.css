@@ -6,9 +6,8 @@
 	height: 9vmin;
 	padding:0;
 }
+
 .boardCell {
-/* 	display: inline-block; */
-/* 	position:static; */
 	width: 9vmin;
 	height: 9vmin;
 	padding:0;
@@ -19,14 +18,16 @@
 	background-color:transparent;	
 }
 #gameBoard{
-/* 	background-image:url("../images/board.png"); */
+/*  	background-image:url("../images/board.png");  */
 	text-align:center;
 	background-position:center;
 	background-size:contain;
 	background-repeat:no-repeat;
-/* 	margin-left:-.5em ; */
+
 	width:90vmin;
 	height:90vmin;
+	
+	margin: 0 auto;
 }
 #proxyDiv{
 	position:fixed;
@@ -34,34 +35,25 @@
 }
 
 .boardCell.active {
-/* 	background-color:lightgreen; 
-	background-size:50%;
-*/
+
 -webkit-animation: cssAnimation 0.591s alternate infinite;
 -moz-animation: cssAnimation 0.591s alternate infinite;
 -o-animation: cssAnimation 0.591s alternate infinite;
 }
 @-webkit-keyframes cssAnimation {
 from { 
-	-webkit-transform: rotate(0deg) scale(0.4) skew(1deg) translate(0px);
+	-webkit-transform: scale(0.4);
  }
 to { 
-	-webkit-transform: rotate(0deg) scale(0.8) skew(1deg) translate(0px); 
+	-webkit-transform: scale(0.9); 
 }
 }
 @-moz-keyframes cssAnimation {
-from { -moz-transform: rotate(0deg) scale(0.467) skew(1deg) translate(0px); }
-to { -moz-transform: rotate(0deg) scale(0.899) skew(1deg) translate(0px); }
+from { -moz-transform: scale(0.4); }
+to { -moz-transform: scale(0.9); }
 }
 @-o-keyframes cssAnimation {
-from { -o-transform: rotate(0deg) scale(0.467) skew(1deg) translate(0px); }
-to { -o-transform: rotate(0deg) scale(0.899) skew(1deg) translate(0px); }
+from { -o-transform: scale(0.4); }
+to { -o-transform: scale(0.9); }
 }
 
-.boardCell.open {
-	background-color: pink;
-}
-
-.boardCell.path {
-	background-color: yellow;
-}
