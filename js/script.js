@@ -191,15 +191,6 @@ function findPath(sSourceCellID, sTargetCellID) {
 	}
 	sortUnvisitedCells();
 
-	// init Unvisited cells
-	// aUnvisitedCells.push({
-	// id : sTargetCellID,
-	// nextID : "",
-	// nDistToTarget : 0
-	// });
-	// nOpenCellCount++;
-	// end intialization
-
 	var oCurrentCell, sNextCellID, tempDist;
 	var aNbhdIDs;
 	while (nUnvisitedCellCount > 0) {

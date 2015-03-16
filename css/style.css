@@ -17,6 +17,9 @@
 	font-size:50%;
 	background-color:transparent;	
 }
+.boardCell.toAppear{
+	background-size:50%;
+}
 #gameBoard{
 /*  	background-image:url("../images/board.png");  */
 	text-align:center;

@@ -3,17 +3,47 @@ var aCellByIDs = [];
 var sActiveCellID = "";
 var aEmptyCellIDs = [];
 var nTotalScore = 0;
-var nMaxColor = 7;
+
+var oGameSettings = { // default game settings
+	nMaxColor : 7, // game difficulty - medium
+	bShowNextBallPos : true, // show next ball positions
+	bVibration : true, // vibration after each move/kill
+	nHighScore : 0
+// highscore
+};
+
 var aNextBalls = [ {
 	id : "nextBall0",
+	toAppear : "",
 	color : 1
 }, {
 	id : "nextBall1",
+	toAppear : "",
 	color : 1
 }, {
 	id : "nextBall2",
+	toAppear : "",
 	color : 1
 } ];
+
+function loadSettings(sSettingsName) {
+	// begin default value
+	if (sSettingsName === undefined) { // no current settings -- save the
+										// default values
+		sSettingsName = "default";
+		windows.localStorage.setItem("gameSettings_" + sSettingsName, JSON
+				.stringify(oGameSettings));
+	}
+	// end default value
+
+	// get current settings
+	window.localStorage.setItem("currentSettings", sSettingsName);
+
+	// load settings
+	oGameSettings = JSON.parse(windows.localStorage.getItem("gameSettings_"
+			+ sSettingsName));
+
+}
 
 function isEmpty(sCellID) {
 	return (aCellByIDs[sCellID].color === 0);
@@ -38,8 +68,9 @@ function setColor(nNewColor, oCell) {
 
 	oCell.color = nNewColor; // set the new color to cell object
 
-	$("#" + sCellID).css("background-image",
+	$("#" + sCellID).removeClass("toAppear").css("background-image",
 			"url(./images/" + nNewColor + ".png)");
+	
 	if (nNewColor === 0) {
 		aEmptyCellIDs.push(sCellID);
 	}
@@ -52,17 +83,26 @@ function newGame(sLoadGame) { // sLoadGame=="load" -> load saved game
 	var nNewColor;
 	var sNewCellID;
 
+	// set highscore
+	if (window.localStorage.getItem("highScore") === undefined) {
+		window.localStorage.setItem("highScore", 0);
+	}
+	oGameSettings.nHighScore = window.localStorage.getItem("highScore");
+	$("#highscore").html(oGameSettings.nHighScore);
+
 	aCellByIDs.length = 0;
 	aEmptyCellIDs.length = 0;
 	// deactivate active cell if exists
-	if (sActiveCellID!==""){$("#"+sActiveCellID).removeClass("active");}
-	
+	if (sActiveCellID !== "") {
+		$("#" + sActiveCellID).removeClass("active");
+	}
+
 	sActiveCellID = "";
 
 	if (sLoadGame === "load") {
-		
+
 		nTotalScore = window.localStorage.getItem("nTotalScore");
-		nMaxColor = window.localStorage.getItem("nMaxColor");
+		oGameSettings.nMaxColor = window.localStorage.getItem("nMaxColor");
 
 		// load boad
 		for (var x = 0; x < 9; x++) {
@@ -78,16 +118,18 @@ function newGame(sLoadGame) { // sLoadGame=="load" -> load saved game
 
 		// set next Ball color
 		for (var i = 0; i < 3; i++) {
-			aNextBalls[i] = JSON.parse(window.localStorage.getItem("nextBall"+ i));
+			aNextBalls[i] = JSON.parse(window.localStorage.getItem("nextBall"
+					+ i));
 			setColor(aNextBalls[i].color, aNextBalls[i]);
 		}
 
 	} else { // reset variables
 		nTotalScore = 0;
-		if ($('input:radio[name=optGameLevel]:checked').val()!==undefined){
-			nMaxColor=$('input:radio[name=optGameLevel]:checked').val();
-		} else{
-			
+		if ($('input:radio[name=optGameLevel]:checked').val() !== undefined) {
+			oGameSettings.nMaxColor = $(
+					'input:radio[name=optGameLevel]:checked').val();
+		} else {
+
 		}
 
 		// reset all cells
@@ -237,8 +279,21 @@ function findPath(sSelectedCellID) {
 function getNextBallColors() {
 	var nNewColor;
 	for (var i = 0; i < 3; i++) {
-		nNewColor = Math.floor(Math.random() * nMaxColor) + 1; // new color
+		nNewColor = Math.floor(Math.random() * oGameSettings.nMaxColor) + 1; // new
+																				// color
 		setColor(nNewColor, aNextBalls[i]);
+
+		// find an empty cell
+		var nNewEmptyCellKey = Math.floor(Math.random() * aEmptyCellIDs.length);
+		var sNewEmptyCellID = aEmptyCellIDs[nNewEmptyCellKey];
+
+		aNextBalls[i].toAppear = sNewEmptyCellID;
+		if (oGameSettings.bShowNextBallPos) {
+			$("#" + aNextBalls[i].toAppear).css("background-image",
+					"url(./images/" + nNewColor + ".png)").addClass("toAppear");
+			console.log("to appear at: " + aNextBalls[i].toAppear);
+		}
+
 	}
 }
 
@@ -247,20 +302,35 @@ function pushNextBallsToBoard() {
 	var nNewEmptyCellKey;
 	var sNewEmptyCellID;
 
-	for (var i = 0; i < 3; i++) {
-		// find an empty cell
-		nNewEmptyCellKey = Math.floor(Math.random() * aEmptyCellIDs.length);
-		sNewEmptyCellID = aEmptyCellIDs[nNewEmptyCellKey];
-
+	for (var i = 0; (i < 3); i++) {
+		if ((aNextBalls[i].toAppear !== "")
+				&& (!isEmpty(aNextBalls[i].toAppear))) {
+			// find an empty cell
+			nNewEmptyCellKey = Math.floor(Math.random() * aEmptyCellIDs.length);
+			sNewEmptyCellID = aEmptyCellIDs[nNewEmptyCellKey];
+		} else {
+			sNewEmptyCellID = aNextBalls[i].toAppear;
+		}
 		// set new color, place the ball
 		setColor(aNextBalls[i].color, aCellByIDs[sNewEmptyCellID]); // 
 		findColorBlocks(sNewEmptyCellID);
 		if (aEmptyCellIDs.length === 0) {
-			alert("game ends");
-			newGame();
+			break;
 		}
 	}
-	getNextBallColors();
+	if (aEmptyCellIDs.length === 0) {
+		alert("No more empty cells, game ends.");
+		if (nTotalScore > oGameSettings.nHighScore) {
+			window.localStorage.highScore = nTotalScore;
+			oGameSettings.nHighScore = nTotalScore;
+
+			alert("congratulation! you have made a new high score.")
+		}
+		newGame();
+		return true;
+	} else {
+		getNextBallColors();
+	}
 	return true;
 }
 
@@ -387,6 +457,17 @@ function findColorBlocks(sCenterCellID) { // function to find color blocks
 		for (var i = 0; i < aBlockCellIDs.length; i++) {
 			setColor(0, aCellByIDs[aBlockCellIDs[i]]);
 		}
+		
+
+		// reset next balls on board
+		for (var i=0;i<3;i++){
+			if ((oGameSettings.bShowNextBallPos)&&(isEmpty(aNextBalls[i].toAppear))) {
+				$("#" + aNextBalls[i].toAppear).css("background-image",
+						"url(./images/" + aNextBalls[i].color + ".png)").addClass("toAppear");
+			}
+		}
+		
+		// increase total score
 		nTotalScore = nTotalScore * 1
 				+ Math.floor(Math.exp(aBlockCellIDs.length * Math.log(1.4)));
 		$("#score").html(nTotalScore);
@@ -420,9 +501,9 @@ function saveGame() {
 
 	// save total score
 	window.localStorage.setItem("nTotalScore", nTotalScore);
-	
+
 	// save game dificulty
-	window.localStorage.setItem("nMaxColor", nMaxColor);
+	window.localStorage.setItem("nMaxColor", oGameSettings.nMaxColor);
 }
 
 // button functions
