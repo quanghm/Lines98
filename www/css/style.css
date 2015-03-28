@@ -30,7 +30,6 @@
 	width:90vmin;
 	height:90vmin;
 	
-	margin: 0 auto;
 }
 #proxyDiv{
 	position:fixed;
@@ -38,18 +37,17 @@
 }
 
 .boardCell.active {
-
--webkit-animation: cssAnimation 0.591s alternate infinite;
--moz-animation: cssAnimation 0.591s alternate infinite;
--o-animation: cssAnimation 0.591s alternate infinite;
+	-webkit-animation: cssAnimation 0.591s alternate infinite;
+	-moz-animation: cssAnimation 0.591s alternate infinite;
+	-o-animation: cssAnimation 0.591s alternate infinite;
 }
 @-webkit-keyframes cssAnimation {
-from { 
-	-webkit-transform: scale(0.4);
- }
-to { 
-	-webkit-transform: scale(0.9); 
-}
+	from { 
+		-webkit-transform: scale(0.4);
+	 }
+	to { 
+		-webkit-transform: scale(0.9); 
+	}
 }
 @-moz-keyframes cssAnimation {
 from { -moz-transform: scale(0.4); }
@@ -60,3 +58,9 @@ from { -o-transform: scale(0.4); }
 to { -o-transform: scale(0.9); }
 }
 
+#main-footer{
+	width:100%;
+	position:absolute;
+	bottom:0;
+	right:0;
+}

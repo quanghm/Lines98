@@ -12,48 +12,49 @@
 <link rel="stylesheet" href="css/style.css" />
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
+<link rel="stylesheet" href="css/responsive.css" />
 </head>
 <body class="ui-mobile-viewport ui-overlay-c">
 	<!-- page 1 - main game play -->
 	<div data-role="page" id="pgMainGamePlay"
 		class="ui-page ui-body-c ui-page-active">
 		<!-- begin main menu -->
-		<div id="mainMenu" data-role="panel" data-display="overlay">
-			<div id="menuRefresh" class="ui-btn">Refresh</div>
-		</div>
+		<!-- 		<div id="mainMenu" data-role="panel" data-display="overlay"> -->
+		<!-- 			<div id="menuRefresh" class="ui-btn">Refresh</div> -->
+		<!-- 		</div> -->
 		<!-- end main menu -->
 
 		<!-- begin head banner -->
-		<div id="banner" data-role="header">
-			<h1 role="heading" class="ui-title">Lines 98</h1>
+		<div id="main-banner" data-role="header" class="ui-grid-b"
+			style="text-align: center; padding: 0">
+			<div class="ui-block-a">
+				<div class="banner-title">Score</div>
+				<div id='score' style="font-size: 200%"></div>
+			</div>
+			<div class="ui-block-b">
+				<div class="banner-title">Next</div>
+				<div class="ui-grid-b">
+					<div class="ui-block-a">
+						<div id="nextBall0" class=" boardCell"></div>
+					</div>
+					<div class="ui-block-b">
+						<div id="nextBall1" class=" boardCell"></div>
+					</div>
+					<div class="ui-block-c">
+						<div id="nextBall2" class=" boardCell"></div>
+					</div>
+				</div>
+			</div>
+			<div class="ui-block-c">
+				<div class="banner-title">High Score</div>
+				<div id="highscore" style="font-size: 200%"></div>
+			</div>
 		</div>
 		<!-- end head banner -->
 
 		<!-- begin content -->
-		<div id="mainPage" role="main" class="ui-content">
-			<div class="ui-container">
-				<div class="ui-grid-b" style="padding: 0; text-align: center;">
-					<div class="ui-block-a">Score</div>
-					<div class="ui-block-b">Next Colors</div>
-					<div class="ui-block-c">High Score</div>
-					<div class="ui-block-a">
-						<div id='score' style="font-size: 200%"></div>
-					</div>
-					<div class="ui-block-b">
-						<div class="ui-grid-b" style="min-height: 60px; line-height: 60px">
-							<div class="ui-block-a">
-								<div id="nextBall0" class=" boardCell"></div>
-							</div>
-							<div class="ui-block-b">
-								<div id="nextBall1" class=" boardCell"></div>
-							</div>
-							<div class="ui-block-c">
-								<div id="nextBall2" class=" boardCell"></div>
-							</div>
-						</div>
-					</div>
-					<div class="ui-block-c" id="highscore"></div>
-				</div>
+		<div id="mainPage" class="ui-content">
+			<div id="gameBoard-container">
 				<div id="gameBoard" class="ui-grid-b">
 					<div class="ui-block-a">
 						<div class="ui-grid-b">
@@ -574,15 +575,16 @@
 		<!-- end content -->
 
 		<!-- begin footer -->
-		<div id="mainFooter" data-role="footer" data-position='fixed'
-			class="ui-footer" style="min-height: 10vm;">
+		<div id="main-footer">
 			<div data-role="navbar" data-iconpos='top'
-				style="width: 90vm; margin: 0 auto; text-align: center;">
+				style="width: 100%; height:100%;margin: 0 auto; text-align: center;">
 				<ul>
-					<li><a href="#pgMainMenu" data-icon="home" data-transition="pop">Menu</a></li>
-					<li><a href="#pgHighScore" data-icon="gear" data-transition="pop">High
-							Scores</a></li>
-					<li><a href="#pgOptions" data-icon="gear" data-transition="pop">Options</a></li>
+					<li><a href="#pgMainMenu" data-icon="home"
+						data-transition="pop">Menu</a></li>
+					<li><a href="#pgHighScore" data-icon="gear"
+						data-transition="pop">High Scores</a></li>
+					<li><a href="#pgOptions" data-icon="gear"
+						data-transition="pop">Options</a></li>
 					<li><a href="#pgAbout" data-icon="gear" data-transition="pop">About</a></li>
 				</ul>
 			</div>
@@ -596,12 +598,14 @@
 		</div>
 		<div data-role="content">
 			<a data-role="button" class="ui-btn" id="mainMenuNewGame"
-				href="#pgMainGamePlay">New Game</a> <a data-role="button" class="ui-btn"
-				id="mainMenuSaveGame" data-rel="back">Save Game</a> <a data-role="button"
-				class="ui-btn" id="mainMenuLoadGame" data-rel="back">Load Game</a> <a
-				data-role="button" class="ui-btn" id="mainMenuHighscores">Highscores</a> <a
-				data-role="button" class="ui-btn" id="mainMenuOptions" href="#pgOptions">Options</a>
-			<a data-role="button" class="ui-btn" id="mainMenuCancel" data-rel="back">Cancel</a>
+				href="#pgMainGamePlay">New Game</a> <a data-role="button"
+				class="ui-btn" id="mainMenuSaveGame" data-rel="back">Save Game</a> <a
+				data-role="button" class="ui-btn" id="mainMenuLoadGame"
+				data-rel="back">Load Game</a> <a data-role="button" class="ui-btn"
+				id="mainMenuHighscores">Highscores</a> <a data-role="button"
+				class="ui-btn" id="mainMenuOptions" href="#pgOptions">Options</a> <a
+				data-role="button" class="ui-btn" id="mainMenuCancel"
+				data-rel="back">Cancel</a>
 		</div>
 		<!-- 		<div data-role="footer"></div> -->
 		<!-- begin game dialog -->
@@ -634,8 +638,8 @@
 					<div class="ui-radio">
 						<label for="optGameLevelMedium"
 							class="ui-btn ui-corner-all ui-btn-inherit">Medium</label><input
-							type="radio" name="optGameLevel" id="optGameLevelMedium" value="7"
-							data-cacheval="true">
+							type="radio" name="optGameLevel" id="optGameLevelMedium"
+							value="7" data-cacheval="true">
 					</div>
 
 					<div class="ui-radio">
@@ -647,21 +651,26 @@
 				</div>
 			</fieldset>
 			<div class="ui-grid-a" id="optShowNextBallPos-container">
-				<div class="ui-block-a" style="text-align:left;height:60px;line-height:60px;"><label for="optShowNextBallPos">Show next ball position:</label></div>
-				<div class="ui-block-b" style="height:60px;line-height:60px;">
+				<div class="ui-block-a"
+					style="text-align: left; height: 60px; line-height: 60px;">
+					<label for="optShowNextBallPos">Show next ball position:</label>
+				</div>
+				<div class="ui-block-b" style="height: 60px; line-height: 60px;">
 					<select id="optShowNextBallPos" data-role="flipswitch">
-					    <option value="0">Off</option>
-					    <option value="1" selected>On</option>
+						<option value="0">Off</option>
+						<option value="1" selected>On</option>
 					</select>
 				</div>
 			</div>
 		</div>
 		<div class='ui-grid-a'>
 			<div class="ui-block-a">
-				<a data-role="button" class="ui-btn" id="optMenuSave" data-rel="back">Save</a>
+				<a data-role="button" class="ui-btn" id="optMenuSave"
+					data-rel="back">Save</a>
 			</div>
 			<div class="ui-block-b">
-				<a data-role="button" class="ui-btn" id="optMenuCancel" data-rel="back">Cancel</a>
+				<a data-role="button" class="ui-btn" id="optMenuCancel"
+					data-rel="back">Cancel</a>
 			</div>
 		</div>
 		<div data-role="footer" data-position="fixed"></div>
@@ -678,12 +687,14 @@
 		$(document).ready(function() {
 			newGame();
 		})
-		
-		$("#optMenuSave").click(function(){
-			if (confirm("You have change game settings. You have to start a new game. Do you want to continue?")){
-				newGame();
-			}
-		})
+
+		$("#optMenuSave")
+				.click(
+						function() {
+							if (confirm("You have change game settings. You have to start a new game. Do you want to continue?")) {
+								newGame();
+							}
+						})
 	</script>
 </body>
 </html>
