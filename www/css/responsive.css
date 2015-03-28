@@ -1,51 +1,51 @@
 @CHARSET "UTF-8";
 
-@media all and (orientation:landscape){
+@media all and (orientation:landscape) {
 	#main-banner {
 		float: left;
 		width: 15vw;
 		height: 100vh;
 	}
-	#main-banner>div{
+	#main-banner>div {
 		width: 100%;
 		float: none;
 		text-align: center;
 		margin: 0 auto;
-		height:33%;
-		vertical-align:middle;
+		height: 33%;
+		vertical-align: middle;
 	}
-	
-/* 	#main-banner>div{ */
-/* 		display:inline; */
-/* 		text-align:center; */
-/* 		width:50%; */
-/* 		word-wrap:break-word; */
-/* 		letter-spacing:8vw;	 */
-/* 	} */
+	#mainPage{
+	    display: table;
+		width:70vw;
+		height:100vh;
+		padding:0;
+	}
 	#main-footer {
 		position: absolute;
-		top:0;
-		right:0;
+		top: 0;
+		right: 0;
 		width: 15vw;
 		height: 100vh;
 	}
-	#main-footer  li{
-		width:100%;
-		height:24vh;
-		float:none;
+	#main-footer  li {
+		width: 100%;
+		height: 24vh;
+		float: none;
 	}
-	#main-footer a{
-		height:95%;
-/* 		line-height:25vh; */
+	#main-footer a {
+		height: 95%;
+		/* 		line-height:25vh; */
 	}
-	#gameBoard-container{
-		text-align:center;
-		width:70vw;
-		vertical-align:middle;
-		height:100vh;
+	#gameBoard-container {
+		margin:0 auto;
+		text-align: center;
+		width: 100%;
+		display:table-cell;
+		vertical-align: middle;
+		height: 100%;
 	}
-	#gameBoard{
-		margin:0;
-		vertical-align:middle;
+	#gameBoard {
+		margin: 0 auto;
+		vertical-align: middle;
 	}
 }
